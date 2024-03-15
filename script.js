@@ -88,7 +88,6 @@ document.addEventListener("DOMContentLoaded", function() {
             cell.addEventListener("click", function() {
                 // Toggle class to stamp/unstamp the cell
                 cell.classList.toggle("stamped");
-                generateBingoCard(prompts);
             });
 
             
