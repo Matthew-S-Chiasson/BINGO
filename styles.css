@@ -28,3 +28,8 @@ body {
     padding: 10px;
     text-align: center;
 }
+
+
+.stamped {
+    background-color: red; /* Change background color to red when stamped */
+}

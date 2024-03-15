@@ -41,42 +41,40 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function generateBingoCard(prompts) {
         bingoCard.innerHTML = ''; // Clear previous card
-
-        let intArray = [];
+        const intArray = []; // Array to track used indexes
 
         // Generate a 5x5 grid for the bingo card
-
         for (let i = 0; i < 25; i++) {
             const cell = document.createElement("div");
             cell.classList.add("cell");
-            // Randomly select a prompt from the prompts array
             
+            // Randomly select a prompt from the prompts array
             let randomIndex = Math.floor(Math.random() * prompts.length);
-            console.log(randomIndex);
-
-            while(isInArray(randomIndex, intArray) || (intArray.length >= 25)){
+            
+            // Ensure that the random index is not already in the array
+            while (intArray.includes(randomIndex)) {
                 randomIndex = Math.floor(Math.random() * prompts.length);
             }
 
+            // Add the random index to the array
             intArray.push(randomIndex);
-            console.log(intArray);
 
             cell.textContent = prompts[randomIndex];
             bingoCard.appendChild(cell);
+            
+            // Add click event listener to each cell
+            cell.addEventListener("click", function() {
+                // Toggle class to stamp/unstamp the cell
+                cell.classList.toggle("stamped");
+            });
+
+            if(i == 12){
+                cell.textContent = "Free Space!";
+            }
+
         }
     }
     
-    function isInArray(elementIn, arrayIn){
-        
-        for(let i = 0; i < arrayIn.length; i++){
-            if(arrayIn[i] == elementIn){
-                return true;
-            }
-        }
-
-        return false;
-
-    }
 
     function parseCsv(csvData) {
         const lines = csvData.split('\n'); // Split by newline character to separate rows
