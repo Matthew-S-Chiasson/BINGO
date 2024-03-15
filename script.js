@@ -79,11 +79,13 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function parseCsv(csvData) {
-        const lines = csvData.split('\n');
+        const lines = csvData.split('\n'); // Split by newline character to separate rows
         const prompts = [];
         lines.forEach(line => {
-            const fields = line.split(',');
-            prompts.push(fields[0]); // Assuming the prompt is in the first column
+            const fields = line.split(','); // Split each line by comma to separate columns
+            fields.forEach(field => {
+                prompts.push(field.trim()); // Trim whitespace and add each field as a prompt
+            });
         });
         return prompts;
     }
