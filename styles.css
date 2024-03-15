@@ -17,18 +17,24 @@ body {
     margin-top: 20px;
 }
 
-.bingo-card {
+
+.cells {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 5px;
 }
 
 .cell {
-    border: 1px solid #ccc;
-    padding: 10px;
-    text-align: center;
+    border: 1px solid black;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    word-wrap: break-word; /* Wrap long text */
+    text-align: center; /* Center text horizontally */
 }
-
 
 .stamped {
     background-color: red; /* Change background color to red when stamped */

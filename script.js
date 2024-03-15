@@ -1,11 +1,14 @@
 document.addEventListener("DOMContentLoaded", function() {
     const bingoCard = document.getElementById("bingo-card");
+    const cells = document.getElementById("cells");
     const addPromptButton = document.getElementById("add-prompt-btn");
     const newPromptInput = document.getElementById("new-prompt-input");
     const importCardInput = document.getElementById("import-card-btn");
     const promptsList = document.getElementById("prompts-list");
-    const genarateNewCardButton = document.getElementById("genarate-card-btn");
+    const genarateNewCardButton = document.getElementById("generate-card-btn");
     let prompts = []; // Array to store prompts
+
+    let isCardGenarated = false;
 
     addPromptButton.addEventListener("click", function() {
         const newPrompt = newPromptInput.value.trim();
@@ -40,7 +43,21 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function generateBingoCard(prompts) {
-        bingoCard.innerHTML = ''; // Clear previous card
+        
+        if(isCardGenarated){
+
+            regenarateCard(prompts);
+
+        }else{
+            firstGen(prompts);
+        }
+
+    }
+
+
+    function firstGen(prompts){
+
+        cells.innerHTML = ''; // Clear previous card
         const intArray = []; // Array to track used indexes
 
         // Generate a 5x5 grid for the bingo card
@@ -59,22 +76,54 @@ document.addEventListener("DOMContentLoaded", function() {
             // Add the random index to the array
             intArray.push(randomIndex);
 
-            cell.textContent = prompts[randomIndex];
-            bingoCard.appendChild(cell);
+            if(i == 12){
+                cell.textContent = "Free Space!";
+            }else{
+                cell.textContent = prompts[randomIndex];
+            }
+
+            cells.appendChild(cell);
             
             // Add click event listener to each cell
             cell.addEventListener("click", function() {
                 // Toggle class to stamp/unstamp the cell
                 cell.classList.toggle("stamped");
+                generateBingoCard(prompts);
             });
+
+            
+
+        }
+
+        isCardGenarated = true;
+
+
+    }
+    
+    function regenarateCard(prompts){
+
+        const intArray = [];
+        const children = cells.children;
+
+        for (let i = 0; i < children.length; i++) {
+            let cell = children[i];
+
+            let randomIndex = Math.floor(Math.random() * prompts.length);
+
+            while (intArray.includes(randomIndex)) {
+                randomIndex = Math.floor(Math.random() * prompts.length);
+            }
+
+            intArray.push(randomIndex);
 
             if(i == 12){
                 cell.textContent = "Free Space!";
+            }else{
+                cell.textContent = prompts[randomIndex];
             }
-
         }
+
     }
-    
 
     function parseCsv(csvData) {
         const lines = csvData.split('\n'); // Split by newline character to separate rows
@@ -96,7 +145,5 @@ document.addEventListener("DOMContentLoaded", function() {
             promptsList.appendChild(promptItem);
         });
     }
-
-
 
 });
